@@ -1,77 +1,96 @@
-// youtube-downloader-saas/README.md
+# 🏢 Manpower Management System
 
-# YouTube Downloader SaaS (720p)
+A complete **Manpower Management System** designed for recruitment agencies to manage candidates, agents, documentation, medical processing, visa tracking, and deployment workflows efficiently.
 
-A modern SaaS YouTube Video Downloader that supports 720p resolution using yt-dlp, built with Next.js 14 App Router, Tailwind CSS, and TypeScript.
-
-## 🌟 Features
-- Paste YouTube URL and download video in 720p
-- Built with Next.js 14 (App Router)
-- API routes using yt-dlp (via `child_process`)
-- Beautiful UI with Tailwind CSS and Shadcn UI
-- TypeScript powered
+This system provides structured role-based access control (RBAC), document management, candidate lifecycle tracking, and operational reporting.
 
 ---
 
-## 📁 Project Structure
+## 🚀 Overview
 
-```
-youtube-downloader-saas/
-├── app/
-│   ├── api/
-│   │   └── download/route.ts  # API route for video download
-│   └── page.tsx               # UI to input and download video
-├── public/
-├── styles/
-├── lib/                      # (for future enhancements)
-├── tailwind.config.ts
-├── package.json
-└── README.md
-```
+The Manpower Management System is built to streamline:
+
+- Candidate registration and tracking
+- Agent management
+- Medical and document verification
+- Visa processing
+- Branch-level operations
+- Role-based access control
+- Workflow monitoring
 
 ---
 
-## ⚙️ Installation
+## 🎯 Key Features
 
-```bash
-git clone https://github.com/yourusername/youtube-downloader-saas.git
-cd youtube-downloader-saas
-npm install
-npm run dev
-```
+### 👥 Role-Based Access Control (RBAC)
 
----
+System roles include:
 
-## 🧪 Usage
+- **Director** – Full system access
+- **HR** – Candidate recruitment & management
+- **Documentation Officer** – Document verification & uploads
+- **Staff** – Operational candidate management
+- **Agent** – Add and track own candidates
 
-1. Paste a YouTube URL into the input box.
-2. Click **Download 720p**.
-3. Your video will be downloaded as `.mp4`.
+Each role has granular permission control.
 
 ---
 
-## 🚀 Tech Stack
-- Next.js 14 (App Router)
-- Tailwind CSS
+### 📁 Candidate Management
+
+- Personal Information
+- Passport Details
+- Medical Tracking
+- Visa Information
+- Educational Qualification
+- Language Skills
+- Experience History
+- Document Uploads (Photo, Passport, Visa, Certificate)
+- Status Tracking Workflow
+
+---
+
+### 📑 Document Management
+
+- Passport copy upload
+- Visa copy upload
+- Medical report upload
+- Police report reference
+- MOFA tracking
+- Expiry monitoring system
+
+---
+
+### 🏥 Medical Tracking
+
+- Medical status (Pending / Fit / Unfit / Expired)
+- Issue & expiry date tracking
+- Expiry alerts (optional cron integration)
+
+---
+
+### 🌍 Branch & Agent Management
+
+- Multi-branch support
+- Agent hierarchy
+- Candidate ownership tracking
+- Performance reporting
+
+---
+
+## 🧱 System Architecture
+
+### Backend
+- Node.js
+- Express.js
 - TypeScript
-- Shadcn UI
-- yt-dlp (run via child_process)
+- MongoDB (Mongoose ODM)
+
+### Database
+- MongoDB
+- Indexed for performance
+- Structured schema validation
+- Enum-based workflow control
 
 ---
 
-## ⚠️ Disclaimer
-This project is for **educational purposes only**. Downloading videos from YouTube may violate their [Terms of Service](https://www.youtube.com/t/terms). Do not use this tool to download videos unless you have permission from the content owner.
-
----
-
-## 📦 To Do
-- Add user authentication (NextAuth.js)
-- Stripe payment plans (Free vs Pro)
-- Usage limits and logs
-- Deploy frontend to Vercel
-- Deploy backend to Render or Railway
-
----
-
-## 📄 License
-MIT
