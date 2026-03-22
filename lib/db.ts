@@ -57,7 +57,7 @@ export const connectDB = async (): Promise<typeof mongoose> => {
   // Create new connection promise if not exists
   if (!cached?.promise) {
     const opts: mongoose.ConnectOptions = {
-      dbName: "nextjs-app",
+      dbName: "mms",
     };
 
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
