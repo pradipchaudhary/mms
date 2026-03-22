@@ -1,13 +1,15 @@
+// src/app/dashboard/page.tsx
+import AuthGuard from "@/components/AuthGuard";
+import LogoutButton from "@/components/LogoutButton";
+
 export default function DashboardPage() {
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Dashboard Overview</h1>
-
-      <div className="grid grid-cols-3 gap-4">
-        <div className="p-4 bg-white rounded shadow">Card 1</div>
-        <div className="p-4 bg-white rounded shadow">Card 2</div>
-        <div className="p-4 bg-white rounded shadow">Card 3</div>
+    <AuthGuard>
+      <div className="p-6">
+        <h1>Dashboard</h1>
+        <p>Only logged-in users can see this.</p>
+        <LogoutButton />
       </div>
-    </div>
+    </AuthGuard>
   );
 }
