@@ -1,9 +1,17 @@
-// src/components/layout/Header.tsx
 "use client";
+
+/**
+ * Header Component
+ * ----------------
+ * - Displays search bar, notifications, and user profile
+ * - Fetches authenticated user from `/api/auth/me`
+ * - Optimized for Next.js (Vercel-ready)
+ */
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { Bell, Search, ChevronDown } from "lucide-react";
+import Image from "next/image";
+import { Bell, Search, ChevronDown, Menu } from "lucide-react";
 
 interface User {
   name: string;
@@ -20,14 +28,23 @@ export function Header({ isCollapsed, onMenuClick }: HeaderProps) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // Fetch the logged-in user
+    /**
+     * Fetch logged-in user
+     */
     const fetchUser = async () => {
       try {
-        const res = await fetch("/api/auth/me", { credentials: "include" });
+        const res = await fetch("/api/auth/me", {
+          credentials: "include",
+        });
+
         if (!res.ok) throw new Error("Failed to fetch user");
-        const data = await res.json();
-        setUser(data.user); // { name, role, avatar }
-      } catch (err) {
+
+        const data: { success: boolean; user?: User } = await res.json();
+
+        if (data.success && data.user) {
+          setUser(data.user);
+        }
+      } catch (err: unknown) {
         console.error("Error fetching user:", err);
       }
     };
@@ -36,10 +53,19 @@ export function Header({ isCollapsed, onMenuClick }: HeaderProps) {
   }, []);
 
   return (
-    <header className="h-16 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-8 sticky top-0 z-40">
+    <header className="h-16 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-4 sm:px-6 lg:px-8 sticky top-0 z-40">
+
+      {/* ✅ Mobile Menu Button (FIX: use onMenuClick) */}
+      <button
+        onClick={onMenuClick}
+        className="lg:hidden p-2 rounded-lg hover:bg-slate-100 transition"
+        aria-label="Open menu"
+      >
+        <Menu className="w-5 h-5 text-slate-600" />
+      </button>
 
       {/* Search */}
-      <div className="flex items-center gap-4 flex-1 max-w-md">
+      <div className="flex items-center gap-4 flex-1 max-w-md ml-2">
         <div className="relative w-full group">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-primary transition-colors" />
           <input
@@ -67,16 +93,23 @@ export function Header({ isCollapsed, onMenuClick }: HeaderProps) {
         {/* User Info */}
         <div className="flex items-center gap-3 cursor-pointer group">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-slate-800 leading-none">{user?.name || "Loading..."}</p>
-            <p className="text-xs text-slate-500 mt-1">{user?.role || "..."}</p>
+            <p className="text-sm font-semibold text-slate-800 leading-none">
+              {user?.name || "Loading..."}
+            </p>
+            <p className="text-xs text-slate-500 mt-1">
+              {user?.role || "..."}
+            </p>
           </div>
 
-          <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary font-bold border-2 border-primary/5 overflow-hidden">
-            <img
+          {/* ✅ FIX: next/image instead of img */}
+          <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-primary/5">
+            <Image
               src={user?.avatar || "https://picsum.photos/seed/admin/100/100"}
               alt={user?.name || "User"}
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
+              width={40}
+              height={40}
+              className="object-cover"
+              unoptimized // Optional if using external image without config
             />
           </div>
 

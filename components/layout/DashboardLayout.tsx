@@ -5,8 +5,6 @@ import { useState, useEffect, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
-import { Briefcase, Clock, Download, Filter, Plus, UserPlus, Users } from "lucide-react";
-import { StatsCard } from "../StatsCard";
 
 interface DashboardLayoutProps {
   children: ReactNode;

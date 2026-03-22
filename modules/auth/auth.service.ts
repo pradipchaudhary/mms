@@ -1,12 +1,35 @@
-// auth.service.ts
-import bcrypt from "bcryptjs";
-import { User } from "../user/user.model";
-import { generateToken } from "./auth.utils";
+/**
+ * Auth Service
+ * ------------
+ * - Handles user registration and login
+ * - Uses bcrypt for hashing
+ * - Generates JWT token
+ */
 
-export const registerUser = async (data: any) => {
+import bcrypt from "bcryptjs";
+import { User, IUser } from "../user/user.model";
+import { generateToken } from "./auth.utils";
+import { UserRole } from "../user/user.types";
+
+/**
+ * Input type for registration
+ */
+interface RegisterInput {
+  name: string;
+  email: string;
+  password: string;
+  role?: UserRole;
+}
+
+/**
+ * Register a new user
+ */
+export const registerUser = async (data: RegisterInput): Promise<IUser> => {
   const exists = await User.findOne({ email: data.email });
 
-  if (exists) throw new Error("User already exists");
+  if (exists) {
+    throw new Error("User already exists");
+  }
 
   const hashedPassword = await bcrypt.hash(data.password, 10);
 
@@ -18,17 +41,27 @@ export const registerUser = async (data: any) => {
   return user;
 };
 
-export const loginUser = async (email: string, password: string) => {
+/**
+ * Login user
+ */
+export const loginUser = async (
+  email: string,
+  password: string
+): Promise<{ user: IUser; token: string }> => {
   const user = await User.findOne({ email }).select("+password");
 
-  if (!user) throw new Error("Invalid credentials");
+  if (!user) {
+    throw new Error("Invalid credentials");
+  }
 
   const isMatch = await bcrypt.compare(password, user.password);
 
-  if (!isMatch) throw new Error("Invalid credentials");
+  if (!isMatch) {
+    throw new Error("Invalid credentials");
+  }
 
   const token = generateToken({
-    id: user._id,
+    id: user._id.toString(),
     role: user.role,
   });
 

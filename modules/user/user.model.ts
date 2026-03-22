@@ -1,8 +1,24 @@
-// user.model.ts
-import mongoose, { Schema, model, models } from "mongoose";
+// modules/user/user.model.ts
+import { Schema, model, models, Document, Model } from "mongoose";
 import { UserRole } from "./user.types";
 
-const UserSchema = new Schema(
+/**
+ * IUser - TypeScript interface for User document
+ */
+export interface IUser extends Document {
+  name: string;
+  email: string;
+  password: string;
+  role: UserRole;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
+ * UserSchema - Mongoose schema for User
+ */
+const UserSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
 
@@ -30,7 +46,11 @@ const UserSchema = new Schema(
       default: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true } // automatically adds createdAt & updatedAt
 );
 
-export const User = models.User || model("User", UserSchema);
+/**
+ * Prevent model overwrite in Next.js hot reload (Vercel-safe)
+ */
+export const User: Model<IUser> =
+  (models.User as unknown as Model<IUser>) || model<IUser>("User", UserSchema);

@@ -1,10 +1,24 @@
 "use client";
 
+/**
+ * Dashboard Page
+ * - Protected by AuthGuard
+ * - Uses DashboardLayout
+ * - Displays stats and actions
+ */
 
 import AuthGuard from "@/components/AuthGuard";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { StatsCard } from "@/components/StatsCard";
-import { Briefcase, Clock, Download, Filter, Plus, UserPlus, Users } from "lucide-react";
+import {
+  Briefcase,
+  Clock,
+  Download,
+  Filter,
+  Plus,
+  UserPlus,
+  Users,
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function DashboardPage() {
@@ -21,20 +35,25 @@ export default function DashboardPage() {
             >
               Dashboard Overview
             </motion.h2>
+
+            {/* ✅ FIXED: Escaped apostrophe */}
             <p className="text-slate-500 text-xs sm:text-sm mt-1">
-              Welcome back, here's what's happening today.
+              Welcome back, here&apos;s what&apos;s happening today.
             </p>
           </div>
 
+          {/* Actions */}
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <button className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
               <Filter className="w-4 h-4" />
               Filters
             </button>
+
             <button className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
               <Download className="w-4 h-4" />
               Export
             </button>
+
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -48,10 +67,42 @@ export default function DashboardPage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-          <StatsCard label="Total Employees" value="1,284" change={12} trend="up" icon={Users} color="blue" delay={0.1} />
-          <StatsCard label="Active Projects" value="42" change={5} trend="up" icon={Briefcase} color="blue" delay={0.2} />
-          <StatsCard label="On Leave" value="18" change={2} trend="down" icon={Clock} color="yellow" delay={0.3} />
-          <StatsCard label="New Hires" value="24" change={8} trend="up" icon={UserPlus} color="rose" delay={0.4} />
+          <StatsCard
+            label="Total Employees"
+            value="1,284"
+            change={12}
+            trend="up"
+            icon={Users}
+            color="blue"
+            delay={0.1}
+          />
+          <StatsCard
+            label="Active Projects"
+            value="42"
+            change={5}
+            trend="up"
+            icon={Briefcase}
+            color="blue"
+            delay={0.2}
+          />
+          <StatsCard
+            label="On Leave"
+            value="18"
+            change={2}
+            trend="down"
+            icon={Clock}
+            color="yellow"
+            delay={0.3}
+          />
+          <StatsCard
+            label="New Hires"
+            value="24"
+            change={8}
+            trend="up"
+            icon={UserPlus}
+            color="rose"
+            delay={0.4}
+          />
         </div>
       </DashboardLayout>
     </AuthGuard>

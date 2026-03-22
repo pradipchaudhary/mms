@@ -1,3 +1,11 @@
+/**
+ * MongoDB Connection Utility (Mongoose)
+ * ------------------------------------
+ * - Prevents multiple connections in development (hot reload safe)
+ * - Uses global cache for Vercel / serverless environments
+ * - Fully TypeScript-safe
+ */
+
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -7,19 +15,23 @@ if (!MONGODB_URI) {
 }
 
 /**
- * Global cache type (Fixes TS error)
+ * Mongoose cache structure
  */
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
 }
 
-// Extend globalThis properly (TypeScript-safe)
+/**
+ * Extend global object (TypeScript-safe)
+ */
 declare global {
-  // eslint-disable-next-line no-var
   var _mongoose: MongooseCache | undefined;
 }
 
+/**
+ * Use global cache to persist connection across reloads
+ */
 const globalWithMongoose = global as typeof globalThis & {
   _mongoose?: MongooseCache;
 };
@@ -33,22 +45,28 @@ if (!cached) {
   };
 }
 
+/**
+ * Connect to MongoDB
+ */
 export const connectDB = async (): Promise<typeof mongoose> => {
+  // Return cached connection if exists
   if (cached?.conn) {
     return cached.conn;
   }
 
+  // Create new connection promise if not exists
   if (!cached?.promise) {
     const opts: mongoose.ConnectOptions = {
-      dbName: "nextjs-app", // optional but good practice
+      dbName: "nextjs-app",
     };
 
-    cached!.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log("✅ MongoDB Local Connected");
-      return mongoose;
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
+      console.log("✅ MongoDB Connected");
+      return mongooseInstance;
     });
   }
 
-  cached!.conn = await cached!.promise;
-  return cached!.conn;
+  // Await connection and cache it
+  cached.conn = await cached.promise;
+  return cached.conn;
 };
