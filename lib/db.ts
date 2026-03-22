@@ -5,33 +5,27 @@
  * - Uses global cache for Vercel / serverless environments
  * - Fully TypeScript-safe
  */
-
+// lib/db.ts
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
-if (!MONGODB_URI) {
-  throw new Error("❌ MONGODB_URI is not defined");
+/**
+ * Skip DB connection during build (like Next.js page pre-render)
+ */
+if (!MONGODB_URI && process.env.NODE_ENV !== "production") {
+  console.warn("⚠️ MONGODB_URI is not defined, skipping MongoDB connection");
 }
 
-/**
- * Mongoose cache structure
- */
 interface MongooseCache {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
 }
 
-/**
- * Extend global object (TypeScript-safe)
- */
 declare global {
   var _mongoose: MongooseCache | undefined;
 }
 
-/**
- * Use global cache to persist connection across reloads
- */
 const globalWithMongoose = global as typeof globalThis & {
   _mongoose?: MongooseCache;
 };
@@ -39,34 +33,22 @@ const globalWithMongoose = global as typeof globalThis & {
 let cached = globalWithMongoose._mongoose;
 
 if (!cached) {
-  cached = globalWithMongoose._mongoose = {
-    conn: null,
-    promise: null,
-  };
+  cached = globalWithMongoose._mongoose = { conn: null, promise: null };
 }
 
-/**
- * Connect to MongoDB
- */
-export const connectDB = async (): Promise<typeof mongoose> => {
-  // Return cached connection if exists
-  if (cached?.conn) {
-    return cached.conn;
-  }
+export const connectDB = async (): Promise<typeof mongoose | null> => {
+  if (!MONGODB_URI) return null; // <-- prevents build errors
 
-  // Create new connection promise if not exists
-  if (!cached?.promise) {
-    const opts: mongoose.ConnectOptions = {
-      dbName: "mms",
-    };
+  if (cached.conn) return cached.conn;
 
+  if (!cached.promise) {
+    const opts: mongoose.ConnectOptions = { dbName: "mms" };
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongooseInstance) => {
       console.log("✅ MongoDB Connected");
       return mongooseInstance;
     });
   }
 
-  // Await connection and cache it
   cached.conn = await cached.promise;
   return cached.conn;
 };
