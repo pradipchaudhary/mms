@@ -1,8 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { ReactNode } from "react";
 
-export default function LogoutButton() {
+interface LogoutButtonProps {
+  className?: string; // dynamic class
+  children?: ReactNode; // optional children (icon + text)
+}
+
+export default function LogoutButton({ className, children }: LogoutButtonProps) {
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -12,8 +18,7 @@ export default function LogoutButton() {
         credentials: "include",
       });
 
-      // Redirect to login page after logout
-      router.replace("/login");
+      router.replace("/login"); // redirect to login
     } catch (err) {
       console.error("Logout failed:", err);
     }
@@ -22,9 +27,9 @@ export default function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
+      className={className} // apply dynamic class
     >
-      Logout
+      {children || "Logout"} {/* fallback to text if no children */}
     </button>
   );
 }
