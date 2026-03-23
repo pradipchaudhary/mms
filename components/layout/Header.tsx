@@ -102,7 +102,7 @@ export function Header({ isCollapsed, onMenuClick }: HeaderProps) {
           </div>
 
           {/* ✅ FIX: next/image instead of img */}
-          <div className="w-10 h-10 rounded-xl overflow-hidden border-2 border-primary/5">
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/5">
             <Image
               src={user?.avatar || "https://picsum.photos/seed/admin/100/100"}
               alt={user?.name || "User"}
@@ -113,7 +113,7 @@ export function Header({ isCollapsed, onMenuClick }: HeaderProps) {
             />
           </div>
 
-          <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors" />
+          {/* <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors" /> */}
         </div>
       </div>
     </header>
