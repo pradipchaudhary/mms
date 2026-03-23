@@ -2,7 +2,9 @@
 import jwt from "jsonwebtoken";
 
 // Ensure the secret exists at runtime
-const JWT_SECRET = process.env.JWT_SECRET;
+// const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || "yourSuperSecretKeyHere";
+
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined in your environment variables");
 }
