@@ -1,15 +1,40 @@
+# name: Deploy
+
+# on:
+#   push:
+#     branches:
+#       - main
+#       - develop
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Trigger Vercel Deploy
+#         run: echo "Handled by Vercel Git Integration"
+
+
+
 name: Deploy
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [main]
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
+    env:
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+
     steps:
-      - name: Trigger Vercel Deploy
-        run: echo "Handled by Vercel Git Integration"
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
