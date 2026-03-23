@@ -1,25 +1,35 @@
 "use client";
 
 /**
- * Sidebar Component
- * -----------------
+ * Sidebar Component (Final)
+ * ------------------------
  * - Collapsible sidebar
- * - Mobile responsive (overlay mode)
- * - Navigation + logout
+ * - Mobile responsive
+ * - Real routing (Next.js)
+ * - Active route detection
  */
 
 import { motion, AnimatePresence } from "motion/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import {
-  Users,
   LayoutDashboard,
-  Settings,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
+  Users,
+  UserPlus,
+  Stethoscope,
+  Plane,
+  CheckCircle,
   FileText,
-  Shield,
+  ClipboardList,
+  Building2,
+  Settings,
   Briefcase,
+  ChevronRight,
+  ChevronLeft,
+  LogOut,
 } from "lucide-react";
+
 import { cn } from "@/lib/utils";
 import LogoutButton from "../LogoutButton";
 
@@ -32,22 +42,40 @@ interface SidebarProps {
 interface NavItem {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   label: string;
-  active: boolean;
+  href: string;
 }
 
-const navItems: NavItem[] = [
-  { icon: LayoutDashboard, label: "Dashboard", active: true },
-  { icon: Users, label: "Employees", active: false },
-  { icon: Briefcase, label: "Projects", active: false },
-  { icon: Shield, label: "Security", active: false },
-  { icon: FileText, label: "Reports", active: false },
-  { icon: Settings, label: "Settings", active: false },
+const BASE = "/dashboard";
+
+export const navItems: NavItem[] = [
+  { icon: LayoutDashboard, label: "Dashboard", href: `${BASE}` },
+
+  // Candidate Management
+  { icon: UserPlus, label: "Candidates", href: `${BASE}/candidates` },
+  { icon: Users, label: "Employees", href: `${BASE}/employees` },
+
+  // Process Pipeline
+  { icon: Stethoscope, label: "Medical Center", href: `${BASE}/medical` },
+  { icon: Plane, label: "Flight", href: `${BASE}/flight` },
+  { icon: CheckCircle, label: "Deployed", href: `${BASE}/deployed` },
+
+  // Business / Operations
+  { icon: Building2, label: "Clients / Companies", href: `${BASE}/clients` },
+  { icon: ClipboardList, label: "Job Demands", href: `${BASE}/jobs` },
+
+  // Reports & Docs
+  { icon: FileText, label: "Reports", href: `${BASE}/reports` },
+
+  // System
+  { icon: Settings, label: "Settings", href: `${BASE}/settings` },
 ];
 
 export function Sidebar({ isCollapsed, onToggle, isMobile }: SidebarProps) {
+  const pathname = usePathname();
+
   return (
     <>
-      {/* ✅ Mobile Overlay (FIX: using isMobile) */}
+      {/* Mobile Overlay */}
       {isMobile && (
         <div
           onClick={onToggle}
@@ -59,41 +87,39 @@ export function Sidebar({ isCollapsed, onToggle, isMobile }: SidebarProps) {
         initial={false}
         animate={{
           width: isCollapsed ? 80 : 256,
-          x: isMobile ? 0 : 0,
         }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
         className={cn(
-          "h-screen bg-white border-r border-slate-100 flex flex-col fixed top-0 z-50 overflow-hidden",
-
-          // ✅ Desktop behavior
-          "left-0",
-
-          // ✅ Mobile behavior (slide in/out)
-          isMobile
-            ? "w-64"
-            : ""
+          "h-screen bg-white border-r border-slate-100 flex flex-col fixed top-0 left-0 z-50 overflow-hidden",
+          isMobile && "w-64"
         )}
       >
         {/* Logo */}
         <div
           className={cn(
-            "p-6 flex items-center justify-between transition-all duration-300",
+            "p-6 flex items-center justify-between",
             isCollapsed ? "px-4" : "px-6"
           )}
         >
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="shrink-0 w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <motion.div
+              layout
+              className={cn(
+                "w-8 h-8 bg-primary rounded-lg flex items-center justify-center relative",
+                isCollapsed ? "-right-2" : "right-0"
+              )}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+            >
               <Briefcase className="text-white w-5 h-5" />
-            </div>
+            </motion.div>
 
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
               {!isCollapsed && (
                 <motion.h1
-                  key="sidebar-title"
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -10 }}
-                  className="font-bold text-slate-800 tracking-tight whitespace-nowrap"
+                  className="font-bold text-slate-800 whitespace-nowrap"
                 >
                   ManpowerMS
                 </motion.h1>
@@ -102,79 +128,68 @@ export function Sidebar({ isCollapsed, onToggle, isMobile }: SidebarProps) {
           </div>
 
           {/* Toggle */}
-          <button
-            onClick={onToggle}
-            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            className="p-1.5 rounded-lg hover:bg-slate-50 text-slate-400 hover:text-slate-600 transition-colors"
-          >
-            {isCollapsed ? (
-              <ChevronRight className="w-5 h-5" />
-            ) : (
-              <ChevronLeft className="w-5 h-5" />
-            )}
+          <button onClick={onToggle} className="relative -right-5">
+            {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
           </button>
         </div>
 
         {/* Navigation */}
         <nav className="flex-1 px-4 py-4 space-y-1">
-          {navItems.map((item) => (
-            <button
-              key={item.label}
-              className={cn(
-                "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group relative",
-                item.active
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-800",
-                isCollapsed && "justify-center px-0"
-              )}
-            >
-              <item.icon
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
                 className={cn(
-                  "w-5 h-5 shrink-0",
-                  item.active
-                    ? "text-primary"
-                    : "text-slate-400 group-hover:text-slate-600"
+                  "flex items-center gap-3 px-3 py-2.5 rounded-xl transition group",
+                  isActive
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-800",
+                  isCollapsed && "justify-center px-0"
                 )}
-              />
-
-              <AnimatePresence mode="wait">
-                {!isCollapsed && (
-                  <motion.span
-                    key={item.label}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    className="text-sm whitespace-nowrap"
-                  >
-                    {item.label}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-
-              {item.active && !isCollapsed && (
-                <motion.div
-                  layoutId="active-nav"
-                  className="ml-auto w-1 h-4 bg-primary rounded-full"
+              >
+                <item.icon
+                  className={cn(
+                    "w-5 h-5",
+                    isActive
+                      ? "text-primary"
+                      : "text-slate-400 group-hover:text-slate-600"
+                  )}
                 />
-              )}
-            </button>
-          ))}
+
+                <AnimatePresence>
+                  {!isCollapsed && (
+                    <motion.span
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      className="text-sm whitespace-nowrap"
+                    >
+                      {item.label}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+
+                {isActive && !isCollapsed && (
+                  <div className="ml-auto w-1 h-4 bg-primary rounded-full" />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Logout */}
-        <div className="p-4 border-t border-slate-100">
+        <div className="p-4 border-t border-amber-50">
           <LogoutButton
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 group",
+              "flex items-center gap-3 px-3 py-2.5 hover:text-red-500",
               isCollapsed && "justify-center px-0"
             )}
           >
-            <LogOut className="w-5 h-5 text-slate-400 group-hover:text-red-500 shrink-0" />
-            {!isCollapsed && (
-              <span className="text-sm font-medium whitespace-nowrap">
-                Logout
-              </span>
-            )}
+            <LogOut className="w-5 h-5" />
+            {!isCollapsed && <span>Logout</span>}
           </LogoutButton>
         </div>
       </motion.aside>

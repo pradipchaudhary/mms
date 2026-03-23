@@ -3,8 +3,8 @@
 
 import { useState, useEffect, ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Sidebar } from "./Sidebar";
-import { Header } from "./Header";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Header } from "@/components/layout/Header";
 
 interface DashboardLayoutProps {
   children: ReactNode;
