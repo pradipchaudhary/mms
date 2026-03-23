@@ -55,7 +55,7 @@ export const navItems: NavItem[] = [
   { icon: Users, label: "Employees", href: `${BASE}/employees` },
 
   // Process Pipeline
-  { icon: Stethoscope, label: "Medical Center", href: `${BASE}/medical` },
+  { icon: Stethoscope, label: "Medical Center", href: `${BASE}/medical-centers` },
   { icon: Plane, label: "Flight", href: `${BASE}/flight` },
   { icon: CheckCircle, label: "Deployed", href: `${BASE}/deployed` },
 
