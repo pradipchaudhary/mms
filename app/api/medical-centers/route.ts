@@ -1,42 +1,30 @@
-import { createMedicalCenter, getMedicalCenters } from "@/modules/medical-center/medicalCenter.service";
 import { NextResponse } from "next/server";
-import { IMedicalCenter } from "@/modules/medical-center/medicalCenter.types";
+import { connectDB } from "@/lib/db";
+import {
+  createMedicalCenter,
+  getMedicalCenters,
+} from "@/modules/medical-center/medicalCenter.service";
 
-/**
- * GET /api/medical-centers
- * Fetch all medical centers from the database.
- * @returns JSON array of medical centers or 500 on error.
- */
+// GET ALL
 export async function GET() {
   try {
-    const centers = await getMedicalCenters();
-    return NextResponse.json(centers);
-  } catch (err) {
-    console.error("Failed to fetch medical centers:", err);
-    return NextResponse.json([], { status: 500 });
+    await connectDB();
+    const data = await getMedicalCenters();
+    return NextResponse.json(data);
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
-/**
- * POST /api/medical-centers
- * Create a new medical center.
- * Expects JSON body with medical center data.
- * @param req Request containing JSON body of type IMedicalCenter
- * @returns Created medical center or 400 on validation/error
- */
+// CREATE
 export async function POST(req: Request) {
   try {
-    // Parse request JSON
-    const data: IMedicalCenter = await req.json();
+    await connectDB();
+    const body = await req.json();
+    const data = await createMedicalCenter(body);
 
-    // Create the medical center
-    const center = await createMedicalCenter(data);
-
-    return NextResponse.json(center, { status: 201 });
-  } catch (err) {
-    // Type-safe error handling
-    const error = err instanceof Error ? err : new Error("Unknown error");
-    console.error("Failed to create medical center:", error.message);
-    return NextResponse.json({ message: error.message }, { status: 400 });
+    return NextResponse.json(data, { status: 201 });
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 400 });
   }
 }
