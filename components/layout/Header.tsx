@@ -11,7 +11,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
-import { Bell, Search, ChevronDown, Menu } from "lucide-react";
+import { Bell, Search, Menu } from "lucide-react";
 
 interface User {
   name: string;
@@ -24,7 +24,7 @@ interface HeaderProps {
   onMenuClick: () => void;
 }
 
-export function Header({ isCollapsed, onMenuClick }: HeaderProps) {
+export function Header({ onMenuClick }: HeaderProps) {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {

@@ -55,13 +55,13 @@ export const navItems: NavItem[] = [
   { icon: Users, label: "Employees", href: `${BASE}/employees` },
 
   // Process Pipeline
-  { icon: Stethoscope, label: "Medical Center", href: `${BASE}/medical` },
   { icon: Plane, label: "Flight", href: `${BASE}/flight` },
   { icon: CheckCircle, label: "Deployed", href: `${BASE}/deployed` },
 
   // Business / Operations
   { icon: Building2, label: "Clients / Companies", href: `${BASE}/clients` },
   { icon: ClipboardList, label: "Job Demands", href: `${BASE}/jobs` },
+  { icon: Stethoscope, label: "Medical Center", href: `${BASE}/medical-centers` },
 
   // Reports & Docs
   { icon: FileText, label: "Reports", href: `${BASE}/reports` },
