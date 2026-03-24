@@ -2,19 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { IMedicalCenter } from "@/modules/medical-center/medicalCenter.types";
 
-interface MedicalCenter {
-  id: string;
-  medicalName: string;
-  address: string;
-  phone: string;
-  email: string;
-  remark: string;
-}
 
 export default function MedicalCentersList() {
   const router = useRouter();
-  const [medicalCenters, setMedicalCenters] = useState<MedicalCenter[]>([]);
+  const [medicalCenters, setMedicalCenters] = useState<IMedicalCenter[]>([]);
 
   useEffect(() => {
     async function fetchCenters() {
@@ -30,22 +23,23 @@ export default function MedicalCentersList() {
     fetchCenters();
   }, []);
 
-  const handleDelete = async (id: string) => {
-    if (!id) return alert("Invalid ID");
 
-    if (!confirm("Are you sure you want to delete this medical center?")) return;
+  // const handleDelete = async (id: string) => {
+  //   if (!id) return alert("Invalid ID");
 
-    try {
-      const res = await fetch(`/api/medical-centers/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Delete failed");
-      setMedicalCenters((prev) => prev.filter((c) => c.id !== id));
-    } catch (error) {
-      console.error(error);
-      alert("Failed to delete medical center");
-    }
-  };
+  //   if (!confirm("Are you sure you want to delete this medical center?")) return;
+
+  //   try {
+  //     const res = await fetch(`/api/medical-centers/${id}`, {
+  //       method: "DELETE",
+  //     });
+  //     if (!res.ok) throw new Error("Delete failed");
+  //     setMedicalCenters((prev) => prev.filter((c) => c.id !== id));
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Failed to delete medical center");
+  //   }
+  // };
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -74,7 +68,7 @@ export default function MedicalCentersList() {
           <tbody className="divide-y divide-gray-200">
             {Array.isArray(medicalCenters) && medicalCenters.length > 0 ? (
               medicalCenters.map((center) => (
-                <tr key={center.id}>
+                <tr key={center._id}>
                   <td className="px-4 py-2">{center.medicalName}</td>
                   <td className="px-4 py-2">{center.address}</td>
                   <td className="px-4 py-2">{center.phone}</td>
@@ -83,18 +77,18 @@ export default function MedicalCentersList() {
                   <td className="px-4 py-2 text-center space-x-2">
                     <button
                       onClick={() =>
-                        router.push(`/dashboard/medical-centers/${center.id}/edit`)
+                        router.push(`/dashboard/medical-centers/${center._id}/edit`)
                       }
                       className="text-blue-600 hover:underline"
                     >
                       Edit
                     </button>
-                    <button
-                      onClick={() => handleDelete(center.id)}
+                    {/* <button
+                      onClick={() => handleDelete(center._id)}
                       className="text-red-600 hover:underline"
                     >
                       Delete
-                    </button>
+                    </button> */}
                   </td>
                 </tr>
               ))

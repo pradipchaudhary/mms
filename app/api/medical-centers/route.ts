@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request) {
   try {
     const centers = await getMedicalCenters();
+    // console.log("medical Center: ", centers)
     return NextResponse.json(centers);
   } catch (error) {
     return NextResponse.json([], { status: 500 });

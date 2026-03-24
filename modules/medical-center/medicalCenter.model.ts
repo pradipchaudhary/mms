@@ -1,17 +1,17 @@
-// medicalCenter.model.ts
-import mongoose, { Schema, models, model } from "mongoose";
+import mongoose, { Schema, models } from "mongoose";
+import { IMedicalCenter } from "./medicalCenter.types";
 
-const MedicalCenterSchema = new Schema(
+const MedicalSchema = new Schema<IMedicalCenter>(
   {
     medicalName: { type: String, required: true, trim: true },
     address: { type: String, required: true },
     phone: { type: String, required: true },
-    email: { type: String, required: true, lowercase: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
     isActive: { type: Boolean, default: true },
-    remark: {type: String, required:false}
+    remark: String,
   },
   { timestamps: true }
 );
 
 export const MedicalCenter =
-  models.MedicalCenter || model("MedicalCenter", MedicalCenterSchema);
+  models.MedicalCenter || mongoose.model<IMedicalCenter>("MedicalCenter", MedicalSchema);
