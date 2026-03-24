@@ -59,7 +59,7 @@ export const navItems: NavItem[] = [
   { icon: CheckCircle, label: "Deployed", href: `${BASE}/deployed` },
 
   // Business / Operations
-  { icon: Building2, label: "Clients / Companies", href: `${BASE}/clients` },
+  { icon: Building2, label: "Clients / Companies", href: `${BASE}/company` },
   { icon: ClipboardList, label: "Job Demands", href: `${BASE}/jobs` },
   { icon: Stethoscope, label: "Medical Center", href: `${BASE}/medical-centers` },
 
