@@ -38,20 +38,20 @@ export default function MedicalCenterRow({
       </td>
 
       <td className="px-6 py-4 text-right">
-        <div className="flex justify-end gap-1">
-          <Button variant="ghost" className="p-2" onClick={onView}>
+        <div className="flex justify-end">
+          <Button variant="ghost" onClick={onView}>
             <Eye size={16} />
           </Button>
 
           <Button
             href={`/dashboard/medical-centers/edit/${center._id}`}
             variant="ghost"
-            className="p-2 hover:text-blue-600"
+            className="hover:text-blue-600"
           >
             <Edit size={16} />
           </Button>
 
-          <Button variant="danger" className="p-2" onClick={onDelete}>
+          <Button variant="danger" onClick={onDelete}>
             <Trash2 size={16} />
           </Button>
         </div>

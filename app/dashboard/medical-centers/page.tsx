@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useMedicalCenters,
   IMedicalCenter,
@@ -12,12 +12,26 @@ import MedicalCenterModal from "@/modules/medical-center/components/MedicalCente
 export default function Page() {
   const { centers, loading, deleteCenter } = useMedicalCenters();
   const [selected, setSelected] = useState<IMedicalCenter | null>(null);
+  const [filteredCenters, setFilteredCenters] = useState(centers);
+
+
+  useEffect(() => {
+    setFilteredCenters(centers);
+  }, [centers]);
 
   if (loading) return <p className="p-10 text-center">Loading...</p>;
 
   return (
     <div className="p-6">
-      <MedicalCenterHeader />
+      {/* <MedicalCenterHeader /> */}
+      <MedicalCenterHeader
+        onSearch={(value) => {
+          const filtered = centers.filter((c) =>
+            c.medicalName.toLowerCase().includes(value.toLowerCase())
+          );
+          setFilteredCenters(filtered);
+        }}
+      />
 
       <MedicalCenterTable
         centers={centers}

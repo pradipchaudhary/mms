@@ -17,7 +17,7 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const base =
-    "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed";
+    "px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer";
 
   const variants = {
     default: "bg-white text-slate-600 hover:bg-slate-50 border border-slate-200",
