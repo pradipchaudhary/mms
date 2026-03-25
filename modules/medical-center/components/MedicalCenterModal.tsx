@@ -39,11 +39,12 @@ export default function MedicalCenterModal({
             <X size={18} />
           </button>
         </div>
-        <div className="relative -top-16 z-0 w-fit h-52 overflow-hidden">
+        <div className="relative -top-16 z-0 w-full h-[200px] overflow-hidden">
           <Image
+            src="/medical-center-placeholder.png"
             alt="Medical Center banner image"
-            src={"/medical-center-placeholder.png"}
-            className="object-cover object-center"
+            fill // <-- makes image cover parent
+            style={{ objectFit: "cover", objectPosition: "center" }} // <-- cover + center
           />
         </div>
 
