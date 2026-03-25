@@ -62,6 +62,7 @@ export const navItems: NavItem[] = [
   { icon: Building2, label: "Clients / Companies", href: `${BASE}/company` },
   { icon: ClipboardList, label: "Job Demands", href: `${BASE}/jobs` },
   { icon: Stethoscope, label: "Medical Center", href: `${BASE}/medical-centers` },
+  { icon: UserPlus, label: "Agents", href: `${BASE}/agents` },
 
   // Reports & Docs
   { icon: FileText, label: "Reports", href: `${BASE}/reports` },
