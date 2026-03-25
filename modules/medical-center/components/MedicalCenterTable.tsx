@@ -24,7 +24,8 @@ export default function MedicalCenterTable({
             <tr>
               <th className="px-6 py-4 text-left font-semibold w-16">S.N</th>
               <th className="px-6 py-4 text-left font-semibold">Medical Facility</th>
-              <th className="px-6 py-4 text-left font-semibold">Contact Info</th>
+              <th className="px-6 py-4 text-left font-semibold">Email</th>
+              <th className="px-6 py-4 text-left font-semibold">Contact</th>
               <th className="px-6 py-4 text-right font-semibold w-32">Actions</th>
             </tr>
           </thead>
