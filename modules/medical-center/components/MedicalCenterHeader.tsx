@@ -27,7 +27,7 @@ export default function MedicalCenterHeader({ onSearch }: Props) {
   }, [search, onSearch]); // ✅ include onSearch in dependency
 
   return (
-    <div className="flex flex-col gap-4 border-b pb-6 mb-6">
+    <div className="flex flex-col gap-4 pb-6 mb-6">
       {/* Top Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>

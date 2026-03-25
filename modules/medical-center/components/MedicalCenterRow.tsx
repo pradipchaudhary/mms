@@ -1,6 +1,6 @@
-import Button from "@/components/ui/Button";
 import { Eye, Edit, Trash2, Mail, Phone } from "lucide-react";
 import { IMedicalCenter } from "../hooks/useMedicalCenters";
+import Link from "next/link";
 
 interface Props {
   center: IMedicalCenter;
@@ -16,44 +16,61 @@ export default function MedicalCenterRow({
   onDelete,
 }: Props) {
   return (
-    <tr className="hover:bg-slate-50">
-      <td className="px-6 py-4 text-sm text-slate-400">{index + 1}</td>
+    <tr className="hover:bg-slate-50 transition-colors duration-200">
+      {/* Index */}
+      <td className="px-6 py-4 text-sm text-slate-500">{index + 1}</td>
 
+      {/* Medical Center Name */}
       <td className="px-6 py-4">
-        <p className="font-semibold">{center.medicalName}</p>
+        <p className="font-medium text-slate-900">{center.medicalName}</p>
         <span className="text-xs text-slate-400">
           ID: {center._id.slice(-6)}
         </span>
       </td>
 
+      {/* Email */}
       <td className="px-6 py-4 text-sm">
-        <div className="flex flex-col">
-          <span className="flex items-center gap-1">
-            <Mail size={12} /> {center.email}
-          </span>
-          <span className="text-xs text-slate-400 flex gap-1">
-            <Phone size={12} /> {center.phone || "—"}
-          </span>
-        </div>
+        <span className="flex items-center gap-2 text-slate-700">
+          <Mail size={14} /> {center.email}
+        </span>
       </td>
 
-      <td className="px-6 py-4 text-right">
-        <div className="flex justify-end">
-          <Button variant="ghost" onClick={onView}>
-            <Eye size={16} />
-          </Button>
+      {/* Phone */}
+      <td className="px-6 py-4 text-sm text-slate-700">
+        <span className="flex items-center gap-2">
+          <Phone size={14} /> {center.phone || "—"}
+        </span>
+      </td>
 
-          <Button
+      {/* Actions */}
+      <td className="px-6 py-4 text-right">
+        <div className="flex justify-end gap-2">
+          {/* View */}
+          <button
+            onClick={onView}
+            className="p-2 bg-purple-600 hover:bg-purple-700 text-white rounded-full transition-all shadow-sm"
+            title="View Details"
+          >
+            <Eye size={16} />
+          </button>
+
+          {/* Edit */}
+          <Link
             href={`/dashboard/medical-centers/edit/${center._id}`}
-            variant="ghost"
-            className="hover:text-blue-600"
+            className="p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full transition-all shadow-sm"
+            title="Edit Center"
           >
             <Edit size={16} />
-          </Button>
+          </Link>
 
-          <Button variant="danger" onClick={onDelete}>
+          {/* Delete */}
+          <button
+            onClick={onDelete}
+            className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-full transition-all shadow-sm"
+            title="Delete Center"
+          >
             <Trash2 size={16} />
-          </Button>
+          </button>
         </div>
       </td>
     </tr>
