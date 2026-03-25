@@ -9,33 +9,31 @@ import mongoose from "mongoose";
 
 /**
  * GET /api/medical-centers/[id]
- * Get single medical center by ID
  */
 export async function GET(
   req: Request,
-  context: { params: Promise<{ id: string }> } // params is a Promise in Next.js 16
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     await connectDB();
-
     const { id } = await context.params;
 
-    // Validate MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return NextResponse.json({ error: "Invalid ID format" }, { status: 400 });
     }
 
     const data = await getMedicalCenterById(id);
-
     return NextResponse.json(data);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Something went wrong" }, { status: 500 });
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : "Something went wrong";
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
 /**
  * PUT /api/medical-centers/[id]
- * Update medical center by ID
  */
 export async function PUT(
   req: Request,
@@ -43,7 +41,6 @@ export async function PUT(
 ) {
   try {
     await connectDB();
-
     const { id } = await context.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -51,22 +48,26 @@ export async function PUT(
     }
 
     const body = await req.json();
-
     const updated = await updateMedicalCenter(id, body);
 
     if (!updated) {
-      return NextResponse.json({ error: "Medical center not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Medical center not found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(updated);
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Something went wrong" }, { status: 500 });
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : "Something went wrong";
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
 /**
  * DELETE /api/medical-centers/[id]
- * Delete medical center by ID
  */
 export async function DELETE(
   req: Request,
@@ -74,7 +75,6 @@ export async function DELETE(
 ) {
   try {
     await connectDB();
-
     const { id } = await context.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -84,11 +84,17 @@ export async function DELETE(
     const deleted = await deleteMedicalCenter(id);
 
     if (!deleted) {
-      return NextResponse.json({ error: "Medical center not found" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Medical center not found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({ message: "Deleted successfully" });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message || "Something went wrong" }, { status: 500 });
+  } catch (err: unknown) {
+    const message =
+      err instanceof Error ? err.message : "Something went wrong";
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

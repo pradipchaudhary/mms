@@ -15,7 +15,7 @@ export default function CreateMedicalCenter() {
     remark: "",
   });
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await fetch("/api/medical-centers", {
       method: "POST",
