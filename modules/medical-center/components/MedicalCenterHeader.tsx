@@ -11,22 +11,23 @@ interface Props {
 export default function MedicalCenterHeader({ onSearch }: Props) {
   const [search, setSearch] = useState("");
 
+  // handle input changes
   const handleSearch = (value: string) => {
     setSearch(value);
-    onSearch?.(value); // pass to parent
+    onSearch?.(value); // pass value to parent
   };
 
+  // debounce search input
   useEffect(() => {
     const delay = setTimeout(() => {
       onSearch?.(search);
     }, 300);
 
     return () => clearTimeout(delay);
-  }, [search]);
+  }, [search, onSearch]); // ✅ include onSearch in dependency
 
   return (
     <div className="flex flex-col gap-4 border-b pb-6 mb-6">
-
       {/* Top Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>

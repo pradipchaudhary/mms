@@ -3,6 +3,7 @@
 import { AlertCircle, Mail, MapPin, Phone, X } from "lucide-react";
 import { IMedicalCenter } from "../hooks/useMedicalCenters";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function MedicalCenterModal({
   center,
@@ -39,7 +40,8 @@ export default function MedicalCenterModal({
           </button>
         </div>
         <div className="relative -top-16 z-0 w-fit h-52 overflow-hidden">
-          <img
+          <Image
+            alt="Medical Center banner image"
             src={"/medical-center-placeholder.png"}
             className="object-cover object-center"
           />

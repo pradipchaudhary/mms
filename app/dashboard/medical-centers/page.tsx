@@ -14,7 +14,6 @@ export default function Page() {
   const [selected, setSelected] = useState<IMedicalCenter | null>(null);
   const [filteredCenters, setFilteredCenters] = useState(centers);
 
-
   useEffect(() => {
     setFilteredCenters(centers);
   }, [centers]);
@@ -23,9 +22,8 @@ export default function Page() {
 
   return (
     <div className="p-6">
-      {/* <MedicalCenterHeader /> */}
       <MedicalCenterHeader
-        onSearch={(value) => {
+        onSearch={(value: string) => {
           const filtered = centers.filter((c) =>
             c.medicalName.toLowerCase().includes(value.toLowerCase())
           );
@@ -34,7 +32,7 @@ export default function Page() {
       />
 
       <MedicalCenterTable
-        centers={centers}
+        centers={filteredCenters} // <-- use filteredCenters here
         onView={setSelected}
         onDelete={deleteCenter}
       />
