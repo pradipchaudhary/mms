@@ -23,7 +23,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50/50 flex font-sans selection:bg-primary/10 selection:text-primary overflow-x-hidden">
+    <div className="h-screen bg-slate-50/50 flex font-sans selection:bg-brand/10 selection:text-brand overflow-hidden">
 
       {/* Sidebar Desktop */}
       <div className="hidden lg:block">
@@ -60,17 +60,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           marginLeft: isDesktop ? (isCollapsed ? "80px" : "256px") : "0px"
         }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="flex-1 flex flex-col min-w-0 w-full overflow-hidden"
+        className="flex-1 flex flex-col min-w-0 h-full overflow-hidden"
       >
         <Header
           isCollapsed={isCollapsed}
           onMenuClick={() => setIsMobileMenuOpen(true)}
         />
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
-          {/* <div className="max-w-full mx-auto space-y-6 sm:space-y-8 h-screen"> */}
           {children}
-          {/* </div> */}
-          <div className="h-screen"></div>
         </main>
       </motion.div>
     </div>
