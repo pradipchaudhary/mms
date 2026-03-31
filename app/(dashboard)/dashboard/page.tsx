@@ -11,6 +11,7 @@ import AuthGuard from "@/components/AuthGuard";
 import { StatsCard } from "@/components/StatsCard";
 import {
   Briefcase,
+  CalendarCheck,
   Clock,
   Download,
   Filter,
@@ -55,7 +56,7 @@ export default function DashboardPage() {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl text-xs sm:text-sm font-bold hover:bg-blue-500 transition-all shadow-md shadow-blue-200"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold hover:opacity-90 transition-all shadow-md shadow-primary/20"
           >
             <Plus className="w-4 h-4" />
             Add Employee
@@ -102,6 +103,8 @@ export default function DashboardPage() {
           delay={0.4}
         />
       </div>
+
+
     </AuthGuard>
   );
 }
