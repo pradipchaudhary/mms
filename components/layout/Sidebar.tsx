@@ -45,30 +45,30 @@ interface NavItem {
   href: string;
 }
 
-const BASE = "/dashboard";
+const BASE = "/";
 
 export const navItems: NavItem[] = [
-  { icon: LayoutDashboard, label: "Dashboard", href: `${BASE}` },
+  { icon: LayoutDashboard, label: "Dashboard", href: `/dashboard` },
 
   // Candidate Management
-  { icon: UserPlus, label: "Candidates", href: `${BASE}/candidates` },
-  { icon: Users, label: "Employees", href: `${BASE}/employees` },
+  { icon: UserPlus, label: "Candidates", href: `/candidates` },
+  { icon: Users, label: "Employees", href: `$/employees` },
 
   // Process Pipeline
-  { icon: Plane, label: "Flight", href: `${BASE}/flight` },
-  { icon: CheckCircle, label: "Deployed", href: `${BASE}/deployed` },
+  { icon: Plane, label: "Flight", href: `/flight` },
+  { icon: CheckCircle, label: "Deployed", href: `/deployed` },
 
   // Business / Operations
-  { icon: Building2, label: "Clients / Companies", href: `${BASE}/company` },
-  { icon: ClipboardList, label: "Job Demands", href: `${BASE}/jobs` },
-  { icon: Stethoscope, label: "Medical Center", href: `${BASE}/medical-centers` },
-  { icon: UserPlus, label: "Agents", href: `${BASE}/agents` },
+  { icon: Building2, label: "Clients / Companies", href: `/company` },
+  { icon: ClipboardList, label: "Job Demands", href: `/jobs` },
+  { icon: Stethoscope, label: "Medical Center", href: `/medical-centers` },
+  { icon: UserPlus, label: "Agents", href: `/agents` },
 
   // Reports & Docs
-  { icon: FileText, label: "Reports", href: `${BASE}/reports` },
+  { icon: FileText, label: "Reports", href: `/reports` },
 
   // System
-  { icon: Settings, label: "Settings", href: `${BASE}/settings` },
+  { icon: Settings, label: "Settings", href: `/settings` },
 ];
 
 export function Sidebar({ isCollapsed, onToggle, isMobile }: SidebarProps) {
