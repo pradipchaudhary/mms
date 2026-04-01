@@ -5,4 +5,5 @@ export enum UserRole {
   ADMIN = "admin",
   HR = "hr",
   RECEPTION = "reception",
+  AGENT = "agent",
 }
