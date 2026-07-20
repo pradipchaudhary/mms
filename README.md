@@ -1,4 +1,4 @@
-# 🏢 Manpower Management System
+# Manpower Management System
 
 A complete **Manpower Management System** designed for recruitment agencies to manage candidates, agents, documentation, medical processing, visa tracking, and deployment workflows efficiently.
 
