@@ -77,3 +77,16 @@ Each role has granular permission control.
 - Performance reporting
 - ....
 
+
+### 🎯 Benefits
+
+- Reduce paperwork and manual processes
+- Improve recruitment efficiency
+- Centralize candidate information
+- Track every recruitment stage
+- Enhance document security
+- Simplify multi-branch operations
+- Increase team collaboration
+- Generate actionable business insights
+- Scale with organizational growth
+- Deliver a seamless recruitment experience for agencies and candidates alike
